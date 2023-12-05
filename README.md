@@ -1,10 +1,8 @@
 
 # Placar Tênis em Kotlin 
 
-<img src="/imgs/main.png" width="280">
+Deveria abrir uma intent com um mapa do Google Maps renderizado, mas não consegui ativar o serviço da API, apenas gerei um API KEY e implementei, porém o serviço não é fornecido.
 
-<img src="/imgs/config.png" width="280">
+<img src="/imgs/1.png" width="280">
 
-<img src="/imgs/placar.png" width="280">
-
-<img src="/imgs/history.png" width="280">
+<img src="/imgs/2.png" width="280">
