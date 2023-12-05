@@ -9,20 +9,29 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 
+import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
+
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
+
+
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.core.content.getSystemService
+import com.google.android.gms.location.FusedLocationProviderClient
+
 import data.Placar
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.nio.charset.StandardCharsets
-import java.util.ArrayList
 
 class PlacarActivity : AppCompatActivity() {
     lateinit var placar:Placar
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 //    lateinit var pontos1,pontos2: int
     lateinit var tvResultadoJogo: TextView
     var game = 0
@@ -40,6 +49,14 @@ class PlacarActivity : AppCompatActivity() {
         val tvNomePartida=findViewById(R.id.tvNomePartida) as TextView
         tvNomePartida.text=placar.nome_partida
         ultimoJogos()
+    }
+
+    fun openMapsActivity(v: View) {
+        val intent = Intent(this, MapsActivity::class.java).apply {
+            putExtra("latitude", placar.latitude)
+            putExtra("longitude", placar.longitude)
+        }
+        startActivity(intent)
     }
 
     fun alteraSets1 (v:View){
@@ -156,10 +173,27 @@ class PlacarActivity : AppCompatActivity() {
     }
 
 
+    fun obterLocalizacaoAtual() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    // Verifica se a localização não é nula
+                    if (location != null) {
+                        // Agora você tem a localização atual do usuário
+                        placar.latitude = location.latitude.toString()
+                        placar.longitude = location.longitude.toString()
+                    }
+                }
+        }
+    }
+
     fun saveGame(v: View) {
 
         val sharedFilename = "PreviousGames"
         val sp: SharedPreferences = getSharedPreferences(sharedFilename, Context.MODE_PRIVATE)
+
         var edShared = sp.edit()
         //Salvar o número de jogos já armazenados
         var numMatches= sp.getInt("numberMatch",0) + 1

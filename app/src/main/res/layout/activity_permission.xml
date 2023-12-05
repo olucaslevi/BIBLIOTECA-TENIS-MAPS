@@ -32,6 +32,7 @@
         android:layout_marginTop="268dp"
         android:onClick="getLocal"
         android:text="Localização"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"

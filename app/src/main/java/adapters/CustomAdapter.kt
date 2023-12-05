@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import android.content.Intent
+import ufc.smd.placar_tenis.MapsActivity
 import data.Placar
 import ufc.smd.placar_tenis.R
 
@@ -39,14 +41,14 @@ class CustomAdapter(private val mList: List<Placar>) : RecyclerView.Adapter<Cust
         holder.tvNomePartida.text = placarAnterior.nome_partida
         holder.tvResultadoJogo.text = placarAnterior.resultado
 
-        holder.lnCell.setOnClickListener{
-            val duration= Snackbar.LENGTH_LONG
-            val text= placarAnterior.resultadoLongo
-
-            val snack= Snackbar.make(holder.lnCell,text,duration)
-            snack.show()
-
+        holder.lnCell.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, MapsActivity::class.java)
+            //intent.putExtra("latitude", placarAnterior.latitude)
+            //intent.putExtra("longitude", placarAnterior.longitude)
+            context.startActivity(intent)
         }
+
     }
 
     // return the number of the items in the list
